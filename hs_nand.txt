@@ -1,0 +1,35 @@
+//Design Code
+module hs(output diff,barrow,input a,b);
+  wire o1,o2,o3;
+  nand a1(o1,a,b);
+  nand a2(o2,a,o1);
+  nand a3(o3,b,o1);
+  nand a4(diff,o2,o3);
+  nand a5(barrow,o3,o3);
+endmodule
+
+//Test Bench Code
+module tb();
+  wire diff,barrow;
+  reg a,b;
+  hs DUT(diff,barrow,a,b);
+  initial
+    begin
+      integer i;
+      for(i=0;i<4;i=i+1)
+        begin
+          {a,b}=i;
+          #10;
+        end
+    end
+  initial
+    begin
+      $monitor("a=%b,b=%b,diff=%b,barrow=%b",a,b,diff,barrow);
+    end
+  initial
+    begin
+      $dumpfile("test.vcd");
+      $dumpvars(1);
+    end
+endmodule
+
